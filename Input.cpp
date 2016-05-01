@@ -1,8 +1,6 @@
 #include "Input.h"
-#include <string>
 #include <iostream>
 #include <random>
-#include <time.h>
 #include <sstream>
 
 #define saltSize 12
@@ -12,7 +10,6 @@ using namespace std;
 Input::Input()
 {
 	stringstream convert;
-	string randStr;
 	do {
 		srand((unsigned int)time(NULL));
 		_randNum = rand() + 1;
@@ -29,37 +26,34 @@ Input::Input()
 
 string Input::Encrypt(string input)
 {
-	string output1;
+	string output;
 	
 	input = _randStr + input;
-	output1 = sha256(input);
 	for (int i = 0; i < 1024; i++)
 	{
-		output1 = sha256(output1);
+		output = sha256(input);
 	}
-	output1 = _randStr + output1;
-	string store = output1;
-	return store;
+	output = _randStr + output;
+	return output;
 }
 
-void Input::Decrypt(string input, string store)
+string Input::Decrypt(string passedInput, string input1)
 {
 	string output1;
 	string saltStr;
 
 	for (int i = 0; i < saltSize; i++)
 	{
-		saltStr += store[i];
+		saltStr += passedInput[i];
 	}
 	
-	input = saltStr + input;
-	output1 = sha256(input);
+	input1 = saltStr + input1;
 	for (int i = 0; i < 1024; i++)
 	{
-		output1 = sha256(output1);
+		output1 = sha256(input1);
 	}
 	output1 = saltStr + output1;
-	
+	return output1;
 }
 
 
