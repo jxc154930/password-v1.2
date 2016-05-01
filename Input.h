@@ -7,7 +7,7 @@ class Input {
 public :
 	Input();
 	std::string Encrypt(std::string input);
-	void Decrypt(std::string input,std::string store);
+	std::string Decrypt(std::string passedInput, std::string input1);
 	
 private:
 	int _randNum;
