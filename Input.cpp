@@ -10,18 +10,18 @@ using namespace std;
 Input::Input()
 {
 	stringstream convert;
-	do {
-		srand((unsigned int)time(NULL));
-		_randNum = rand() + 1;
-		_randNum = _randNum * rand();
-		convert << _randNum;
-		_randStr = convert.str();
-	} while (_randStr.size() >= saltSize);
+	std::random_device rd;
+	std::mt19937 mt(rd());
+	std::uniform_real_distribution<long double > dist(10000000000, 99999999999);
+	unsigned long hold = (unsigned long)dist(mt);
+	convert << hold;
+	_randStr = convert.str();
 
-	while(_randStr.size() < saltSize)
-	{
-		_randStr.append("0");
-	}
+   while(_randStr.size() < saltSize)
+   {
+       _randStr.append("0");
+   }
+
 }
 
 string Input::Encrypt(string input)
